@@ -78,6 +78,7 @@ class Engine(Application):
             car.create_dir(self.PATH)
         self.generate_parcurs()
         self.generate_borderou()
+        logger.debug("Data generated ")
 
     def generate_borderou(self):
         __bord_index = self.database.bord_index

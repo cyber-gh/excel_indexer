@@ -164,7 +164,7 @@ class Application(Frame):
 class ConsoleLog:
     def __init__(self, frame):
         self.frame = frame
-        self.scrolled_text = ScrolledText(self.frame, state="disabled", bg="dodger blue")
+        self.scrolled_text = ScrolledText(self.frame, height=10, state="disabled", bg="dodger blue")
         self.scrolled_text.grid(row=0, columnspan=6)
         self.scrolled_text.configure(font="tkFixedFont", state="normal")
         self.scrolled_text.tag_config("INFO", foreground="black")
