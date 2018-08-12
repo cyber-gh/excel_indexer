@@ -1,6 +1,7 @@
 import datetime
 from ui_interface import logger
 import os
+from time import sleep
 
 
 class DataRec(object):
@@ -28,10 +29,32 @@ class CarRecord(object):
                 "  " + str(self.driver_name))
 
     def create_dir(self, path):
-        complete_path = path + '/' + self.name
+        complete_path = path + '/' + str(self.index) + " " + self.name
         if not os.path.exists(complete_path):
             os.makedirs(complete_path)
         self.dir = complete_path
+
+    def print_parcurs(self):
+        files = []
+        for (dirpath, dirnames, filenames) in os.walk(self.dir):
+            files.extend(filenames)
+            break
+        parcurs_fiels = [file for file in files if 'parcurs' in file]
+        parcurs_fiels.sort()
+        for file in parcurs_fiels:
+            os.startfile(self.dir + "\\" + file, 'print')
+            sleep(1)
+
+    def print_borderou(self):
+        files = []
+        for (dirpath, dirnames, filenames) in os.walk(self.dir):
+            files.extend(filenames)
+            break
+        parcurs_fiels = [file for file in files if 'borderou' in file]
+        parcurs_fiels.sort()
+        for file in parcurs_fiels:
+            os.startfile(self.dir + "\\" + file, 'print')
+            sleep(1)
 
 
 class Date(datetime.date):
@@ -42,7 +65,7 @@ class Date(datetime.date):
     def next_day(self):
         curr = self
         curr += datetime.timedelta(days=1)
-        return curr
+        return Date(curr.year, curr.month, curr.day)
 
     @staticmethod
     def string_to_default(s):
