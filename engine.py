@@ -24,8 +24,8 @@ class Engine(Application):
         self.set_previous()
 
     def set_previous(self):
-        with open(self.PATH_TO_DATABASE, 'rb') as input:
-            __database = pickle.load(input)
+        with open(self.PATH_TO_DATABASE, 'rb') as inp:
+            __database = pickle.load(inp)
             self.bord_input.insert(0, str(__database.bord_index))
             self.par_input.insert(0, str(__database.parc_index))
             self.date_input.insert(0, str(__database.start_date))
@@ -68,7 +68,6 @@ class Engine(Application):
             __database = self.database
             pickle.dump(__database, output)
 
-
     def execute(self):
         logger.debug("Starting generating the data...")
         if not self.database.is_valid:
@@ -79,7 +78,6 @@ class Engine(Application):
             car.create_dir(self.PATH)
         self.generate_parcurs()
         self.generate_borderou()
-        # todo implement further
 
     def generate_borderou(self):
         __bord_index = self.database.bord_index
@@ -203,11 +201,6 @@ class Engine(Application):
     def set_car_name_borderou(wb, car):
         __sheet = wb["Borderou"]
         __sheet["E7"] = str(car.series) + " " + str(car.name)
-
-
-
-
-
 
 
 def main():

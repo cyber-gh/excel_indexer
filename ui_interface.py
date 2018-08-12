@@ -102,7 +102,7 @@ class Application(Frame):
             curr_miss_dates = Entry(self.cars_frame)
             curr_print_borderou_button = Button(self.cars_frame, text="Printeaza borderouri")
             curr_print_parcursuri_button = Button(self.cars_frame, text="Printeaza parcursuri")
-            self.Cars.append([curr_label,curr_car_series, curr_car_name, curr_car_driver_name, curr_miss_dates,
+            self.Cars.append([curr_label, curr_car_series, curr_car_name, curr_car_driver_name, curr_miss_dates,
                               curr_print_borderou_button, curr_print_parcursuri_button])
 
         # Creating the buttons widgets - control_frame
