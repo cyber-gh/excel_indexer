@@ -1,25 +1,25 @@
 from data import EngineRecord
-import os
 from ui_interface import *
 import openpyxl
 import pickle
+import shutil
 
 
 class Engine(Application):
     PATH = "generated"
-    PATH_TO_TEMPLATE_1 = "src/parcurs_template.xlsx"
-    PATH_TO_TEMPLATE_2 = "src/borderou_template.xlsx"
+    PATH_TO_TEMPLATE_1 = "src/parcurs_template.xlsm"
+    PATH_TO_TEMPLATE_2 = "src/borderou_template.xlsm"
     PATH_TO_DATABASE = "src/database.pkl"
-    DIRECTION_1 = "Chisinau-Hancesti"
-    DIRECTION_2 = "Chisinau-Rusestii Noi"
-    DIRECTION_3 = "Chisinau-Ulmu"
+    DIRECTION_1 = "Chişinău-Hîncesti"
+    DIRECTION_2 = "Chişinău-Ruseştii Noi"
+    DIRECTION_3 = "Chişinău-Ulmu"
 
     def __init__(self, master=None):
         super().__init__(master)
         self.database = EngineRecord()
         # load the template workbook
-        self.parcurs_template = openpyxl.load_workbook(filename=self.PATH_TO_TEMPLATE_1)
-        self.borderou_template = openpyxl.load_workbook(filename=self.PATH_TO_TEMPLATE_2)
+        self.parcurs_template = openpyxl.load_workbook(filename=self.PATH_TO_TEMPLATE_1, keep_vba=True)
+        self.borderou_template = openpyxl.load_workbook(filename=self.PATH_TO_TEMPLATE_2, keep_vba=True)
         self.dir = list()
         self.set_previous()
 
@@ -31,12 +31,6 @@ class Engine(Application):
             self.date_input.insert(0, str(__database.start_date))
             self.days_input.insert(0, str(__database.days_nr))
             self.nr_cars_input.insert(0, str(__database.cars_nr))
-            # print('Printing database cars')
-            # for el in __database.cars:
-            #     print(str(el.name))
-            #     attrs = vars(el)
-            #     for k, val in attrs.items():
-            #         print(k,' ', end='')
             i = 0
             for el in __database.cars:
                 if i > 13:
@@ -47,7 +41,6 @@ class Engine(Application):
                 self.Cars[i][3].insert(0, str(el.driver_name))
                 self.Cars[i][4].insert(0, str((",".join(str(item) for item in el.miss_dates))))
                 i += 1
-
 
     def submit(self):
         self.database.empty()
@@ -68,13 +61,11 @@ class Engine(Application):
                 break
             __tmp = list()
             __tmp.append(i)
-            __tmp += [(x.get()) for x in rec[1:]]
+            __tmp += [(x.get()) for x in rec[1:-2]]
             self.database.set_car(*__tmp)
             i += 1
         with open(self.PATH_TO_DATABASE, 'wb') as output:
             __database = self.database
-            for el in __database.cars:
-                print(el)
             pickle.dump(__database, output)
 
 
@@ -83,6 +74,7 @@ class Engine(Application):
         if not self.database.is_valid:
             logger.error("Datele sunt incorecte, introduceti din nou")
             return
+        shutil.rmtree(self.PATH)
         for car in self.database.cars:
             car.create_dir(self.PATH)
         self.generate_parcurs()
@@ -96,6 +88,8 @@ class Engine(Application):
         for _day in range(self.database.days_nr):
             i = 0
             for _car in self.database.cars:
+                if __date.day in _car.miss_dates:
+                    continue
                 if i == 0:
                     self.change_direction_borderou(__wb, self.DIRECTION_1)
                 if i == 6:
@@ -106,9 +100,10 @@ class Engine(Application):
                 self.set_driver_name_borderou(__wb, _car)
                 self.change_date_borderou(__wb, __date)
                 self.change_index_borderou(__wb, __bord_index)
-                __wb.save(_car.dir + "/" + str('borderou') + str(_day + 1) + ".xlsx")
+                __wb.save(_car.dir + "/" + str('borderou') + str(_day + 1) + ".xlsm")
                 __bord_index += 1
-            __date.next_day()
+            __date = __date.next_day()
+        self.button_function_borderou()
 
     def generate_parcurs(self):
         __parc_index = self.database.parc_index
@@ -117,6 +112,8 @@ class Engine(Application):
         for _day in range(self.database.days_nr):
             i = 0
             for _car in self.database.cars:
+                if __date.day in _car.miss_dates:
+                    continue
                 if i == 0:
                     self.change_direction_parcurs(__wb, self.DIRECTION_1)
                 if i == 6:
@@ -127,9 +124,24 @@ class Engine(Application):
                 self.set_driver_name_parcurs(__wb, _car)
                 self.change_date_parcurs(__wb, __date)
                 self.change_index_parcurs(__wb, __parc_index)
-                __wb.save(_car.dir + "/" + str('parcurs') + str(_day + 1) + ".xlsx")
+                __wb.save(_car.dir + "/" + str('parcurs') + str(_day + 1) + ".xlsm")
                 __parc_index += 1
-            __date.next_day()
+            __date = __date.next_day()
+        self.button_function_parcurs()
+
+    def button_function_parcurs(self):
+        __len = len(self.database.cars)
+        __buttons = [el[6] for el in self.Cars[:__len]]
+        __cars = [el for el in self.database.cars[:__len]]
+        for i in range(__len):
+            __buttons[i].configure(command=__cars[i].print_parcurs)
+
+    def button_function_borderou(self):
+        __len = len(self.database.cars)
+        __buttons = [el[5] for el in self.Cars[:__len]]
+        __cars = [el for el in self.database.cars[:__len]]
+        for i in range(__len):
+            __buttons[i].configure(command=__cars[i].print_borderou)
 
     @staticmethod
     def change_direction_parcurs(wb, direction):
@@ -165,7 +177,8 @@ class Engine(Application):
     @staticmethod
     def set_driver_name_borderou(wb, car):
         __sheet = wb["Borderou"]
-        __sheet["E7"].value = car.driver_name
+        __sheet["C6"].value = car.driver_name
+        __sheet["H23"].value = car.driver_name
 
     @staticmethod
     def change_date_borderou(wb, date):
@@ -189,7 +202,7 @@ class Engine(Application):
     @staticmethod
     def set_car_name_borderou(wb, car):
         __sheet = wb["Borderou"]
-        __sheet["E7"] = car.name
+        __sheet["E7"] = str(car.series) + " " + str(car.name)
 
 
 

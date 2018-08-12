@@ -43,8 +43,8 @@ class QueueHandler(logging.Handler):
 
 
 class Application(Frame):
-    WINDOW_WIDTH = 740
-    WINDOW_HEIGHT = 600
+    WINDOW_WIDTH = 800
+    WINDOW_HEIGHT = 650
     DEFAULT_CAR_NR = 14
 
     def __init__(self, master=None):
@@ -90,7 +90,7 @@ class Application(Frame):
         self.nr_index_label = Label(self.cars_frame, text="Nr")
         self.car_label = Label(self.cars_frame, text='Nr masinii')
         self.car_series = Label(self.cars_frame, text="Seria masinii")
-        self.driver_name_label = Label(self.cars_frame, text="Numele soferului(de dorit fara diacritice)")
+        self.driver_name_label = Label(self.cars_frame, text="Numele soferului")
         self.miss_dates_label = Label(self.cars_frame, text="Zile libere")
 
         self.Cars = []
@@ -100,11 +100,14 @@ class Application(Frame):
             curr_car_series = Entry(self.cars_frame)
             curr_car_driver_name = Entry(self.cars_frame)
             curr_miss_dates = Entry(self.cars_frame)
-            self.Cars.append([curr_label,curr_car_series, curr_car_name, curr_car_driver_name, curr_miss_dates])
+            curr_print_borderou_button = Button(self.cars_frame, text="Printeaza borderouri")
+            curr_print_parcursuri_button = Button(self.cars_frame, text="Printeaza parcursuri")
+            self.Cars.append([curr_label,curr_car_series, curr_car_name, curr_car_driver_name, curr_miss_dates,
+                              curr_print_borderou_button, curr_print_parcursuri_button])
 
         # Creating the buttons widgets - control_frame
-        self.submit_button = Button(self.control_frame, text="Submit", command=self.submit)  # todo define command function
-        self.execute_button = Button(self.control_frame, text="Execute", command=self.execute)  # todo define command function
+        self.submit_button = Button(self.control_frame, text="Submit", command=self.submit)
+        self.execute_button = Button(self.control_frame, text="Execute", command=self.execute)
 
         # Placing the index_frame widgets in the frame
         self.bord_label.grid(row=0, column=0)
@@ -121,8 +124,8 @@ class Application(Frame):
         self.days_input.grid(row=0, column=3)
 
         # Placing the cars_frame widgets in the frame
-        self.nr_cars_label.grid(row=0, column=1, sticky='e')
-        self.nr_cars_input.grid(row=0, column=2, sticky='w')
+        self.nr_cars_label.grid(row=0, column=0, sticky='e')
+        self.nr_cars_input.grid(row=0, column=1, columnspan=2, sticky='w')
 
         self.nr_index_label.grid(row=1)
         self.car_label.grid(row=1, column=1)
@@ -136,6 +139,8 @@ class Application(Frame):
             el[2].grid(row=i, column=2)
             el[3].grid(row=i, column=3)
             el[4].grid(row=i, column=4)
+            el[5].grid(row=i, column=5)
+            el[6].grid(row=i, column=6)
             i += 1
 
         # Placing the buttons in the control_frame
@@ -160,7 +165,7 @@ class ConsoleLog:
     def __init__(self, frame):
         self.frame = frame
         self.scrolled_text = ScrolledText(self.frame, state="disabled", bg="dodger blue")
-        self.scrolled_text.grid(row=0, column=4)
+        self.scrolled_text.grid(row=0, columnspan=6)
         self.scrolled_text.configure(font="tkFixedFont", state="normal")
         self.scrolled_text.tag_config("INFO", foreground="black")
         self.scrolled_text.tag_config("WARNING", foreground="OrangeRed4")
