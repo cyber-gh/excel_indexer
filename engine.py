@@ -10,7 +10,7 @@ class Engine(Application):
     PATH_TO_TEMPLATE_1 = "src/parcurs_template.xlsm"
     PATH_TO_TEMPLATE_2 = "src/borderou_template.xlsm"
     PATH_TO_DATABASE = "src/database.pkl"
-    DIRECTION_1 = "Chişinău-Hîncesti"
+    DIRECTION_1 = "Chişinău-Ialoveni"
     DIRECTION_2 = "Chişinău-Ruseştii Noi"
     DIRECTION_3 = "Chişinău-Ulmu"
 
@@ -93,7 +93,7 @@ class Engine(Application):
                     self.change_direction_borderou(__wb, self.DIRECTION_1)
                 if i == 6:
                     self.change_direction_borderou(__wb, self.DIRECTION_2)
-                if i == 12:
+                if i == 11:
                     self.change_direction_borderou(__wb, self.DIRECTION_3)
                 self.set_car_name_borderou(__wb, _car)
                 self.set_driver_name_borderou(__wb, _car)
@@ -101,6 +101,7 @@ class Engine(Application):
                 self.change_index_borderou(__wb, __bord_index)
                 __wb.save(_car.dir + "/" + str('borderou') + str(_day + 1) + ".xlsm")
                 __bord_index += 1
+                i += 1
             __date = __date.next_day()
         self.button_function_borderou()
 
@@ -117,7 +118,7 @@ class Engine(Application):
                     self.change_direction_parcurs(__wb, self.DIRECTION_1)
                 if i == 6:
                     self.change_direction_parcurs(__wb, self.DIRECTION_2)
-                if i == 12:
+                if i == 11:
                     self.change_direction_parcurs(__wb, self.DIRECTION_3)
                 self.set_car_name_parcurs(__wb, _car)
                 self.set_driver_name_parcurs(__wb, _car)
@@ -125,6 +126,7 @@ class Engine(Application):
                 self.change_index_parcurs(__wb, __parc_index)
                 __wb.save(_car.dir + "/" + str('parcurs') + str(_day + 1) + ".xlsm")
                 __parc_index += 1
+                i += 1
             __date = __date.next_day()
         self.button_function_parcurs()
 
