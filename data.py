@@ -105,6 +105,8 @@ class EngineRecord(object):
     def __init__(self):
         self.bord_index = 1
         self.parc_index = 1
+        self.bord_index_miss_dates = []
+        self.parc_index_miss_dates = []
         self.start_date = Date(2018, 1, 1)
         self.days_nr = 1
         self.cars_nr = 0
@@ -119,6 +121,19 @@ class EngineRecord(object):
             self.is_valid = False
             logger.warning("Indexul la borderoul este invalid")
 
+    def set_bord_index_miss_dates(self, s):
+        if not s:
+            return
+
+        temp = list(s.split('-'))
+        if len(temp) == 2 and temp[0].isdigit() and temp[1].isdigit():
+            self.bord_index_miss_dates = [int(x) for x in temp]
+            print(temp)
+            logger.debug("Indexurile lipsa setate cu success")
+        else:
+            self.is_valid = False
+            logger.warning("Indexruile la data lipsa nu pot fi setate")
+
     def set_par_index(self, s):
         if s.isdigit() and int(s) >= 1:
             self.parc_index = int(s)
@@ -126,6 +141,19 @@ class EngineRecord(object):
         else:
             self.is_valid = False
             logger.warning("indexul la parcurs este invalid")
+
+    def set_parc_index_miss_dates(self, s):
+        if not s:
+            return
+
+        temp = list(s.split('-'))
+        if len(temp) == 2 and temp[0].isdigit() and temp[1].isdigit():
+            self.parc_index_miss_dates = [int(x) for x in temp]
+            print(temp)
+            logger.debug("Indexurile lipsa setate cu success")
+        else:
+            self.is_valid = False
+            logger.warning("Indexruile la data lipsa nu pot fi setate")
 
     def set_date(self, s):
         try:

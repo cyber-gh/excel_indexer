@@ -43,14 +43,14 @@ class QueueHandler(logging.Handler):
 
 
 class Application(Frame):
-    WINDOW_WIDTH = 800
-    WINDOW_HEIGHT = 650
-    DEFAULT_CAR_NR = 14
+    WINDOW_WIDTH = 850
+    WINDOW_HEIGHT = 800
+    DEFAULT_CAR_NR = 18
 
     def __init__(self, master=None):
         super().__init__(master)
         master.title('Page indexer')
-        master.resizable(width=FALSE, height=FALSE)
+        # master.resizable(width=FALSE, height=FALSE)
         master.geometry('{}x{}'.format(Application.WINDOW_WIDTH, Application.WINDOW_HEIGHT))
 
         # Building the layout
@@ -73,8 +73,14 @@ class Application(Frame):
         self.bord_label = Label(self.index_frame, text="Indexul de inceput la borderou")
         self.bord_input = Entry(self.index_frame)
 
+        self.bord_miss_indexes_label = Label(self.index_frame, text="Interval de coduri lipsa la borderou")
+        self.bord_miss_indexes_input = Entry(self.index_frame)
+
         self.par_label = Label(self.index_frame, text='Indexul de inceput la parcurs')
         self.par_input = Entry(self.index_frame)
+
+        self.parc_miss_indexes_label = Label(self.index_frame, text="Interval de coduri lipsa la parcursuri")
+        self.parc_miss_indexes_input = Entry(self.index_frame)
 
         # Creating date_frame widgets
         self.date_label = Label(self.date_frame, text=" Data de inceput")
@@ -113,8 +119,14 @@ class Application(Frame):
         self.bord_label.grid(row=0, column=0)
         self.bord_input.grid(row=0, column=1)
 
+        self.bord_miss_indexes_label.grid(row=1, column=0)
+        self.bord_miss_indexes_input.grid(row=1, column=1)
+
         self.par_label.grid(row=0, column=2)
         self.par_input.grid(row=0, column=3)
+
+        self.parc_miss_indexes_label.grid(row=1, column=2)
+        self.parc_miss_indexes_input.grid(row=1, column=3)
 
         # Placing the date_frame widgets in the frame
         self.date_label.grid(row=0)

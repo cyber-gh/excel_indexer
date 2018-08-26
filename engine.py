@@ -49,6 +49,8 @@ class Engine(Application):
         self.database.set_bord_index(__bord_index)
         __parc_index = self.par_input.get()
         self.database.set_par_index(__parc_index)
+        self.database.set_bord_index_miss_dates(self.bord_miss_indexes_input.get())
+        self.database.set_parc_index_miss_dates(self.parc_miss_indexes_input.get())
         __date = self.date_input.get()
         self.database.set_date(__date)
         __nr = self.days_input.get()
@@ -81,7 +83,7 @@ class Engine(Application):
         logger.debug("Data generated ")
 
     def generate_borderou(self):
-        __bord_index = self.database.bord_index
+        __parc_index = self.parc_index_generator()
         __date = self.database.start_date
         __wb = self.borderou_template
         for _day in range(self.database.days_nr):
@@ -98,15 +100,15 @@ class Engine(Application):
                 self.set_car_name_borderou(__wb, _car)
                 self.set_driver_name_borderou(__wb, _car)
                 self.change_date_borderou(__wb, __date)
-                self.change_index_borderou(__wb, __bord_index)
+                self.change_index_borderou(__wb, next(__parc_index))
                 __wb.save(_car.dir + "/" + str('borderou') + str(_day + 1) + ".xlsm")
-                __bord_index += 1
                 i += 1
             __date = __date.next_day()
         self.button_function_borderou()
 
     def generate_parcurs(self):
-        __parc_index = self.database.parc_index
+        logger.debug("Generating parcurs")
+        __bord_index = self.bord_index_generator()
         __date = self.database.start_date
         __wb = self.parcurs_template
         for _day in range(self.database.days_nr):
@@ -123,9 +125,8 @@ class Engine(Application):
                 self.set_car_name_parcurs(__wb, _car)
                 self.set_driver_name_parcurs(__wb, _car)
                 self.change_date_parcurs(__wb, __date)
-                self.change_index_parcurs(__wb, __parc_index)
+                self.change_index_parcurs(__wb, next(__bord_index))
                 __wb.save(_car.dir + "/" + str('parcurs') + str(_day + 1) + ".xlsm")
-                __parc_index += 1
                 i += 1
             __date = __date.next_day()
         self.button_function_parcurs()
@@ -143,6 +144,31 @@ class Engine(Application):
         __cars = [el for el in self.database.cars[:__len]]
         for i in range(__len):
             __buttons[i].configure(command=__cars[i].print_borderou)
+
+    def bord_index_generator(self):
+        bord_index = self.database.bord_index
+        while True:
+            yield bord_index
+            if not self.database.bord_index_miss_dates:
+                bord_index += 1
+                continue
+
+            if bord_index == self.database.bord_index_miss_dates[0]:
+                bord_index = self.database.bord_index_miss_dates[1]
+            else:
+                bord_index += 1
+
+    def parc_index_generator(self):
+        parc_index = self.database.parc_index
+        while True:
+            yield parc_index
+            if not self.database.parc_index_miss_dates:
+                parc_index += 1
+                continue
+            if parc_index == self.database.parc_index_miss_dates[0]:
+                parc_index = self.database.parc_index_miss_dates[1]
+            else:
+                parc_index += 1
 
     @staticmethod
     def change_direction_parcurs(wb, direction):
