@@ -89,20 +89,21 @@ class Engine(Application):
         for _day in range(self.database.days_nr):
             i = 0
             for _car in self.database.cars:
+                i += 1
                 if __date.day in _car.miss_dates:
                     continue
-                if i == 0:
+                if i >= 0:
                     self.change_direction_borderou(__wb, self.DIRECTION_1)
-                if i == 6:
+                if i >= 7:
                     self.change_direction_borderou(__wb, self.DIRECTION_2)
-                if i == 11:
+                if i >= 12:
                     self.change_direction_borderou(__wb, self.DIRECTION_3)
                 self.set_car_name_borderou(__wb, _car)
                 self.set_driver_name_borderou(__wb, _car)
                 self.change_date_borderou(__wb, __date)
                 self.change_index_borderou(__wb, next(__parc_index))
                 __wb.save(_car.dir + "/" + str('borderou') + str(_day + 1) + ".xlsm")
-                i += 1
+
             __date = __date.next_day()
         self.button_function_borderou()
 
@@ -114,20 +115,20 @@ class Engine(Application):
         for _day in range(self.database.days_nr):
             i = 0
             for _car in self.database.cars:
+                i += 1
                 if __date.day in _car.miss_dates:
                     continue
-                if i == 0:
+                if i >= 0:
                     self.change_direction_parcurs(__wb, self.DIRECTION_1)
-                if i == 6:
+                if i >= 7:
                     self.change_direction_parcurs(__wb, self.DIRECTION_2)
-                if i == 11:
+                if i >= 12:
                     self.change_direction_parcurs(__wb, self.DIRECTION_3)
                 self.set_car_name_parcurs(__wb, _car)
                 self.set_driver_name_parcurs(__wb, _car)
                 self.change_date_parcurs(__wb, __date)
                 self.change_index_parcurs(__wb, next(__bord_index))
                 __wb.save(_car.dir + "/" + str('parcurs') + str(_day + 1) + ".xlsm")
-                i += 1
             __date = __date.next_day()
         self.button_function_parcurs()
 
