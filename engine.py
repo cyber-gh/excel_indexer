@@ -6,7 +6,7 @@ import shutil
 
 
 class Engine(Application):
-    PATH = "generated"
+    PATH = "generated/"
     PATH_TO_TEMPLATE_1 = "src/parcurs_template.xlsm"
     PATH_TO_TEMPLATE_2 = "src/borderou_template.xlsm"
     PATH_TO_DATABASE = "src/database.pkl"
