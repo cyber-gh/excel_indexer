@@ -193,7 +193,7 @@ class Engine(Application):
     @staticmethod
     def set_car_name_parcurs(wb, car):
         __sheet = wb['Parcurs']
-        __sheet['E6'].value = str(car.series) + "   " + str(car.name)
+        __sheet['I8'].value = str(car.series) + "   " + str(car.name)
 
     @staticmethod
     def change_direction_borderou(wb, direction):
