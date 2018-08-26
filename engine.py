@@ -96,7 +96,7 @@ class Engine(Application):
                     self.change_direction_borderou(__wb, self.DIRECTION_1)
                 if i >= 7:
                     self.change_direction_borderou(__wb, self.DIRECTION_2)
-                if i >= 12:
+                if i >= 13:
                     self.change_direction_borderou(__wb, self.DIRECTION_3)
                 self.set_car_name_borderou(__wb, _car)
                 self.set_driver_name_borderou(__wb, _car)
@@ -122,7 +122,7 @@ class Engine(Application):
                     self.change_direction_parcurs(__wb, self.DIRECTION_1)
                 if i >= 7:
                     self.change_direction_parcurs(__wb, self.DIRECTION_2)
-                if i >= 12:
+                if i >= 13:
                     self.change_direction_parcurs(__wb, self.DIRECTION_3)
                 self.set_car_name_parcurs(__wb, _car)
                 self.set_driver_name_parcurs(__wb, _car)
