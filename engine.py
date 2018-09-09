@@ -40,6 +40,7 @@ class Engine(Application):
                 self.Cars[i][2].insert(0, str(el.series))
                 self.Cars[i][3].insert(0, str(el.driver_name))
                 self.Cars[i][4].insert(0, str((",".join(str(item) for item in el.miss_dates))))
+                self.Cars[i][5].insert(0,str(el.direction))
                 i += 1
 
     def submit(self):
@@ -89,15 +90,7 @@ class Engine(Application):
         for _day in range(self.database.days_nr):
             i = 0
             for _car in self.database.cars:
-                i += 1
-                if __date.day in _car.miss_dates:
-                    continue
-                if i >= 0:
-                    self.change_direction_borderou(__wb, self.DIRECTION_1)
-                if i >= 7:
-                    self.change_direction_borderou(__wb, self.DIRECTION_2)
-                if i >= 13:
-                    self.change_direction_borderou(__wb, self.DIRECTION_3)
+                self.change_direction_borderou(__wb, _car.direction)
                 self.set_car_name_borderou(__wb, _car)
                 self.set_driver_name_borderou(__wb, _car)
                 self.change_date_borderou(__wb, __date)
@@ -115,15 +108,7 @@ class Engine(Application):
         for _day in range(self.database.days_nr):
             i = 0
             for _car in self.database.cars:
-                i += 1
-                if __date.day in _car.miss_dates:
-                    continue
-                if i >= 0:
-                    self.change_direction_parcurs(__wb, self.DIRECTION_1)
-                if i >= 7:
-                    self.change_direction_parcurs(__wb, self.DIRECTION_2)
-                if i >= 13:
-                    self.change_direction_parcurs(__wb, self.DIRECTION_3)
+                self.change_direction_parcurs(__wb, _car.direction)
                 self.set_car_name_parcurs(__wb, _car)
                 self.set_driver_name_parcurs(__wb, _car)
                 self.change_date_parcurs(__wb, __date)
@@ -134,14 +119,14 @@ class Engine(Application):
 
     def button_function_parcurs(self):
         __len = len(self.database.cars)
-        __buttons = [el[6] for el in self.Cars[:__len]]
+        __buttons = [el[7] for el in self.Cars[:__len]]
         __cars = [el for el in self.database.cars[:__len]]
         for i in range(__len):
             __buttons[i].configure(command=__cars[i].print_parcurs)
 
     def button_function_borderou(self):
         __len = len(self.database.cars)
-        __buttons = [el[5] for el in self.Cars[:__len]]
+        __buttons = [el[6] for el in self.Cars[:__len]]
         __cars = [el for el in self.database.cars[:__len]]
         for i in range(__len):
             __buttons[i].configure(command=__cars[i].print_borderou)

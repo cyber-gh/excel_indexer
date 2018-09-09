@@ -98,6 +98,7 @@ class Application(Frame):
         self.car_series = Label(self.cars_frame, text="Seria masinii")
         self.driver_name_label = Label(self.cars_frame, text="Numele soferului")
         self.miss_dates_label = Label(self.cars_frame, text="Zile libere")
+        self.direction_label = Label(self.cars_frame, text="Directia")
 
         self.Cars = []
         for _ in range(Application.DEFAULT_CAR_NR):
@@ -106,10 +107,11 @@ class Application(Frame):
             curr_car_series = Entry(self.cars_frame)
             curr_car_driver_name = Entry(self.cars_frame)
             curr_miss_dates = Entry(self.cars_frame)
+            curr_direction = Entry(self.cars_frame)
             curr_print_borderou_button = Button(self.cars_frame, text="Printeaza borderouri")
             curr_print_parcursuri_button = Button(self.cars_frame, text="Printeaza parcursuri")
             self.Cars.append([curr_label, curr_car_series, curr_car_name, curr_car_driver_name, curr_miss_dates,
-                              curr_print_borderou_button, curr_print_parcursuri_button])
+                              curr_direction, curr_print_borderou_button, curr_print_parcursuri_button])
 
         # Creating the buttons widgets - control_frame
         self.submit_button = Button(self.control_frame, text="Submit", command=self.submit)
@@ -144,6 +146,7 @@ class Application(Frame):
         self.car_series.grid(row=1, column=2)
         self.driver_name_label.grid(row=1, column=3)
         self.miss_dates_label.grid(row=1, column=4)
+        self.direction_label.grid(row=1, column=5)
         i = 2
         for el in self.Cars:
             el[0].grid(row=i)
@@ -153,6 +156,7 @@ class Application(Frame):
             el[4].grid(row=i, column=4)
             el[5].grid(row=i, column=5)
             el[6].grid(row=i, column=6)
+            el[7].grid(row=i, column=7)
             i += 1
 
         # Placing the buttons in the control_frame

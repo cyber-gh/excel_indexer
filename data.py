@@ -20,6 +20,7 @@ class CarRecord(object):
         self.series = series
         self.driver_name = driver_name
         self.miss_dates = miss_dates
+        self.direction =''
         self.is_valid = True
         self.used = False
         self.dir = ''
@@ -180,11 +181,12 @@ class EngineRecord(object):
             self.is_valid = False
             logger.warning("Nr de masini")
 
-    def set_car(self, index, car_name, car_series, driver_name, missing_days=''):
+    def set_car(self, index, car_name, car_series, driver_name, missing_days, direction):
         __car = CarRecord()
         __car.index = index
         __car.name = car_name
         __car.series = car_series
+        __car.direction = direction
         if driver_name == '':
             logger.error("Numele soferului %d este invalid" % index)
             __car.is_valid = False
