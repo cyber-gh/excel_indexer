@@ -90,6 +90,8 @@ class Engine(Application):
         for _day in range(self.database.days_nr):
             i = 0
             for _car in self.database.cars:
+                if _day in _car.miss_dates:
+                    continue
                 self.change_direction_borderou(__wb, _car.direction)
                 self.set_car_name_borderou(__wb, _car)
                 self.set_driver_name_borderou(__wb, _car)
@@ -108,6 +110,8 @@ class Engine(Application):
         for _day in range(self.database.days_nr):
             i = 0
             for _car in self.database.cars:
+                if _day in _car.miss_dates:
+                    continue
                 self.change_direction_parcurs(__wb, _car.direction)
                 self.set_car_name_parcurs(__wb, _car)
                 self.set_driver_name_parcurs(__wb, _car)
