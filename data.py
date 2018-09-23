@@ -94,7 +94,7 @@ class Date(datetime.date):
             7: 'Iulie',
             8: 'August',
             9: 'Septembrie',
-            10: 'Octombir',
+            10: 'Octombrie',
             11: 'Noiembrie',
             12: 'Decembrie'
 
