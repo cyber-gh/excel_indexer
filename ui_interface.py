@@ -43,7 +43,7 @@ class QueueHandler(logging.Handler):
 
 
 class Application(Frame):
-    WINDOW_WIDTH = 850
+    WINDOW_WIDTH = 950
     WINDOW_HEIGHT = 800
     DEFAULT_CAR_NR = 18
 

@@ -79,6 +79,7 @@ class Engine(Application):
             return
         if (os.path.isdir(self.PATH)):
             shutil.rmtree(self.PATH)
+        os.makedirs(self.PATH)
         for car in self.database.cars:
             car.create_dir(self.PATH)
         self.generate_parcurs()

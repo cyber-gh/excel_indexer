@@ -3,8 +3,8 @@
 block_cipher = None
 
 
-a = Analysis(['engine.py'],
-             pathex=['D:\\Programs\\Python\\Indexer_UI'],
+a = Analysis(['engine.py', 'data.py', 'ui_interface.py', 'main.py'],
+             pathex=['D:\\Programs\\Python\\excel_indexer'],
              binaries=[],
              datas=[],
              hiddenimports=[],
