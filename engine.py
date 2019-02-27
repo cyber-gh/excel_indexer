@@ -2,6 +2,7 @@ from data import EngineRecord
 from ui_interface import *
 import openpyxl
 import pickle
+import os
 import shutil
 
 
@@ -76,7 +77,8 @@ class Engine(Application):
         if not self.database.is_valid:
             logger.error("Datele sunt incorecte, introduceti din nou")
             return
-        shutil.rmtree(self.PATH)
+        if (os.path.isdir(self.PATH)):
+            shutil.rmtree(self.PATH)
         for car in self.database.cars:
             car.create_dir(self.PATH)
         self.generate_parcurs()

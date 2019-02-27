@@ -190,7 +190,7 @@ class EngineRecord(object):
         if driver_name == '':
             logger.error("Numele soferului %d este invalid" % index)
             __car.is_valid = False
-        if driver_name[0].isupper() and all(x.islower() for x in driver_name[1:]):
+        if driver_name[0].isupper() and all(x.isalpha() or x == " " for x in driver_name[1:]):
             __car.driver_name = driver_name
         else:
             logger.warning("Eroare la numele soferului: " + str(index))
